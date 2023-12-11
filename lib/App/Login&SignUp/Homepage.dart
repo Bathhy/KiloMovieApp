@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:simpleloginbegin/App/Login&SignUp/movie.dart';
-import 'package:simpleloginbegin/constant.dart';
+// import 'package:simpleloginbegin/constant.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -26,7 +26,7 @@ class _HomescreenState extends State<Homescreen> {
             top: 20,
           ),
           child: Text(
-            "KiloIT Movies",
+            "Elite Cinema",
             style: TextStyle(color: Colors.yellow),
           ),
         ),
@@ -54,7 +54,7 @@ class _HomescreenState extends State<Homescreen> {
               ),
               TextButton(
                 onPressed: () {
-                  print('SEE MORE button pressed');
+                  // print('SEE MORE button pressed');
                 },
                 child: const Text(
                   "SEE MORE",
@@ -67,6 +67,15 @@ class _HomescreenState extends State<Homescreen> {
               ),
             ],
           ),
+          Expanded(
+              child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            itemCount: moiveList.length,
+            itemBuilder: (context, index) {
+              return buildCard(movie: moiveList[index]);
+            },
+            // => buildCard(movie: moiveList[index]),
+          ))
           // Add the text button here, outside the ListView
         ],
       ),
@@ -110,7 +119,7 @@ class _HomescreenState extends State<Homescreen> {
                   child: Image.asset(
                     movie.img,
                     fit: BoxFit.fitWidth,
-                    height: 150,
+                    height: 180,
                   ),
                 ),
               ),
@@ -123,7 +132,7 @@ class _HomescreenState extends State<Homescreen> {
                 minRating: 1,
                 direction: Axis.horizontal,
                 allowHalfRating: true,
-                itemCount: movie.rate,
+                itemCount: 5,
                 itemPadding: const EdgeInsets.symmetric(horizontal: 1),
                 unratedColor: Colors.grey,
                 itemBuilder: (context, _) => const Icon(
@@ -131,7 +140,7 @@ class _HomescreenState extends State<Homescreen> {
                   color: Colors.yellow,
                 ),
                 onRatingUpdate: (rating) {
-                  print(rating);
+                  // print(rating);
                 },
               ),
             ],

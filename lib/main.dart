@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simpleloginbegin/App/Login&SignUp/Homepage.dart';
+// import 'package:simpleloginbegin/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
