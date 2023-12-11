@@ -51,7 +51,7 @@ class _LoginState extends State<Login1> {
             child: TextFormField(
                 style: const TextStyle(color: Colors.yellow),
                 decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
+                border: UnderlineInputBorder(),
                   labelText: 'Password:',
                 ),
                 obscureText: true,
@@ -62,18 +62,13 @@ class _LoginState extends State<Login1> {
               top: 10,
             ),
             child: ElevatedButton(
+                onPressed: () => Navigator.pushNamed(context, "/home"),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.yellow,
-                ),
-                onPressed: () {
-                  // setState(() {
-                  //   Get.to(const Regester());
-                  // });
-                },
-                child: const Text(
-                  'Login',
-                  style: TextStyle(color: Colors.black),
-                )),
+                    backgroundColor: Colors.yellow,
+                    textStyle: const TextStyle(
+                      fontSize: 20,
+                    )),
+                child: const Text("Login")),
           ),
           Container(),
         ],

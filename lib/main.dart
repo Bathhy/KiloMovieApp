@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:simpleloginbegin/App/Login&SignUp/Homepage.dart';
-// import 'package:simpleloginbegin/splash_screen.dart';
+import 'package:simpleloginbegin/App/Login&SignUp/homepage.dart';
+import 'package:simpleloginbegin/App/Login&SignUp/login.dart';
+import 'package:simpleloginbegin/botnavi/bookmark.dart';
+import 'package:simpleloginbegin/botnavi/searchbut.dart';
+import 'package:simpleloginbegin/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,13 +15,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        debugShowCheckedModeBanner: false,
-        home: const Homescreen());
+    return MaterialApp(
+      // title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.yellow),
+        useMaterial3: true,
+      ),
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const SplashScreen(),
+        '/details': (context) => const Login1(),
+        '/home': (context) => const Homescreen(),
+        '/search': (context) => const Searching(),
+        '/Bookmark': (context) => const Mybookmark(),
+      },
+    );
   }
 }

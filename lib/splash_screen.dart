@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:simpleloginbegin/App/Login&SignUp/login.dart';
+// import 'package:simpleloginbegin/App/Login&SignUp/login.dart';
 import 'package:simpleloginbegin/constant.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,10 +14,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(
-        const Duration(seconds: 3),
-        () => Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const Login1())));
+    Timer(const Duration(seconds: 3),
+        () => Navigator.pushReplacementNamed(context, '/details'));
   }
 
   @override
