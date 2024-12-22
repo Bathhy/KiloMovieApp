@@ -1,4 +1,5 @@
 {
     "java.compile.nullAnalysis.mode": "automatic",
-    "cmake.sourceDirectory": "C:/Users/MSI63/Flutter thing s/simplelogin/simpleloginbegin/linux"
+    "cmake.sourceDirectory": "C:/Users/MSI63/Flutter thing s/simplelogin/simpleloginbegin/linux",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:simpleloginbegin/App/Login&SignUp/movie.dart';
-// import 'package:simpleloginbegin/constant.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -39,32 +38,42 @@ class _HomescreenState extends State<Homescreen> {
               height: 250,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: moiveList.length,
+                itemCount: movieList.length,
                 itemBuilder: (context, index) =>
-                    buildCard(movie: moiveList[index]),
+                    buildCard(movie: movieList[index]),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Column(
               children: [
-                const Text(
-                  "Latest.",
-                  style: TextStyle(
-                      fontSize: 30,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w900),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    "SEE MORE",
-                    style: TextStyle(
-                      color: Colors.amber,
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline,
+                const SizedBox(height: 20.0),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Latest.",
+                      style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w900,
+                      ),
                     ),
-                  ),
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 16.0),
+                      child: TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          "SEE MORE",
+                          style: TextStyle(
+                            color: Colors.amber,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -72,11 +81,10 @@ class _HomescreenState extends State<Homescreen> {
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
-              itemCount: moiveList.length,
+              itemCount: movieList.length,
               itemBuilder: (context, index) {
-                return buildCardtwo(movie: moiveList[index]);
+                return buildCardtwo(movie: movieList[index]);
               },
-              // => buildCard(movie: moiveList[index]),
             )
           ],
         ),
@@ -122,123 +130,160 @@ class _HomescreenState extends State<Homescreen> {
     );
   }
 
-  Widget buildCard({required Movie movie}) => Stack(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 300,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: Image.asset(
-                    movie.img,
-                    fit: BoxFit.fitWidth,
-                    height: 180,
+  Widget buildCard({required Movie movie}) => InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, '/detailAven',
+              arguments: {"movie": movie});
+        },
+        child: Stack(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: 300,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Image.asset(
+                      movie.img,
+                      fit: BoxFit.fitWidth,
+                      height: 180,
+                    ),
                   ),
                 ),
-              ),
-              Text(
-                movie.title,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-              ),
-              RatingBar.builder(
-                initialRating: 5,
-                minRating: 1,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                itemCount: 5,
-                itemPadding: const EdgeInsets.symmetric(horizontal: 1),
-                unratedColor: Colors.grey,
-                itemBuilder: (context, _) => const Icon(
-                  Icons.star,
-                  color: Colors.yellow,
+                Text(
+                  movie.title,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
                 ),
-                onRatingUpdate: (rating) {
-                  // print(rating);
+                RatingBar.builder(
+                  itemSize: 30,
+                  initialRating: 5,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: const EdgeInsets.symmetric(horizontal: 1),
+                  unratedColor: Colors.grey,
+                  itemBuilder: (context, _) => const Icon(
+                    Icons.star,
+                    color: Colors.yellow,
+                  ),
+                  onRatingUpdate: (rating) {
+                    // print(rating);
+                  },
+                ),
+              ],
+            ),
+            Positioned(
+              top: 3,
+              right: 4,
+              child: IconButton(
+                onPressed: () {
+                  setState(() {
+                    isBookMarked = !isBookMarked;
+                  });
                 },
-              ),
-            ],
-          ),
-          Positioned(
-            top: 3,
-            right: 4,
-            child: IconButton(
-              onPressed: () {
-                setState(() {
-                  isBookMarked = !isBookMarked;
-                });
-              },
-              icon: Icon(
-                isBookMarked ? Icons.bookmark : Icons.bookmark_outline,
-                color: Colors.yellow,
-                size: 45,
+                icon: Icon(
+                  isBookMarked ? Icons.bookmark : Icons.bookmark_outline,
+                  color: Colors.yellow,
+                  size: 45,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
-  Widget buildCardtwo({required Movie movie}) => Stack(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 200,
-                height: 300,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: Image.asset(
-                    movie.img,
-                    fit: BoxFit.fitWidth,
-                    height: 180,
+  Widget buildCardtwo({required Movie movie}) => InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, '/detailAven',
+              arguments: {"movie": movie});
+        },
+        child: Stack(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: 200,
+                  height: 300,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Image.asset(
+                      movie.img,
+                      fit: BoxFit.fitWidth,
+                      height: 180,
+                    ),
                   ),
                 ),
-              ),
-              Text(
-                movie.title,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-              ),
-              RatingBar.builder(
-                initialRating: 5,
-                minRating: 1,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                itemCount: 5,
-                itemPadding: const EdgeInsets.symmetric(horizontal: 1),
-                unratedColor: Colors.grey,
-                itemBuilder: (context, _) => const Icon(
-                  Icons.star,
-                  color: Colors.yellow,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        movie.title,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      RatingBar.builder(
+                        itemSize: 30,
+                        initialRating: 5,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemPadding: const EdgeInsets.symmetric(horizontal: 1),
+                        unratedColor: Colors.grey,
+                        itemBuilder: (context, _) => const Icon(
+                          Icons.star,
+                          color: Colors.yellow,
+                        ),
+                        onRatingUpdate: (rating) {
+                          // print(rating);
+                        },
+                      ),
+                      Text(
+                        movie.genre,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Text(
+                          movie.subtitle,
+                          style: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 11,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-                onRatingUpdate: (rating) {
-                  // print(rating);
+              ],
+            ),
+            Positioned(
+              top: 3,
+              right: 200,
+              child: IconButton(
+                onPressed: () {
+                  setState(() {
+                    isBookMarked = !isBookMarked;
+                  });
                 },
-              ),
-            ],
-          ),
-          Positioned(
-            top: 3,
-            right: 200,
-            child: IconButton(
-              onPressed: () {
-                setState(() {
-                  isBookMarked = !isBookMarked;
-                });
-              },
-              icon: Icon(
-                isBookMarked ? Icons.bookmark : Icons.bookmark_outline,
-                color: Colors.yellow,
-                size: 45,
+                icon: Icon(
+                  isBookMarked ? Icons.bookmark : Icons.bookmark_outline,
+                  color: Colors.yellow,
+                  size: 45,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
 }

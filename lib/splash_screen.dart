@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              Image_spotify,
+              imagespotify,
               width: 200,
             ),
             const SizedBox(height: 20),

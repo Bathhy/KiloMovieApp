@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:simpleloginbegin/App/Login&SignUp/regester.dart';
+import 'package:get/get.dart';
+import 'package:simpleloginbegin/App/Login&SignUp/auth_controller.dart';
+import 'package:simpleloginbegin/route/myroute.dart';
 
 class Login1 extends StatefulWidget {
   const Login1({super.key});
@@ -10,68 +11,121 @@ class Login1 extends StatefulWidget {
 }
 
 class _LoginState extends State<Login1> {
-  // int _currentIndex = 0;
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+    final AuthController _control = Get.put(AuthController());
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-          title: const Padding(
-            padding: EdgeInsets.only(
-              top: 20,
-              left: 110,
-            ),
-            child: Text(
-              "KiloIT Movies",
-              style: TextStyle(color: Colors.yellow),
-            ),
+        title: const Padding(
+          padding: EdgeInsets.only(
+            top: 20,
+            left: 110,
           ),
-          backgroundColor: const Color.fromARGB(255, 0, 0, 0)),
-      body: Column(
-        children: [
-          icon(),
-          Padding(
-            padding: const EdgeInsets.only(
-              right: 50,
-              left: 50,
-            ),
-            child: TextFormField(
-              style: const TextStyle(color: Colors.yellow),
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                labelText: 'Username:',
-              ),
-            ),
+          child: Text(
+            "KiloIT Movies",
+            style: TextStyle(color: Colors.yellow),
           ),
-          Padding(
-            padding: const EdgeInsets.only(
-              right: 50,
-              left: 50,
-            ),
-            child: TextFormField(
-                style: const TextStyle(color: Colors.yellow),
-                decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                  labelText: 'Password:',
+        ),
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+      ),
+      body: SingleChildScrollView(
+        // Wrap the body with SingleChildScrollView
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              icon(),
+              Padding(
+                padding: const EdgeInsets.only(
+                  right: 50,
+                  left: 50,
                 ),
-                obscureText: true,
-                obscuringCharacter: '*'),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 10,
-            ),
-            child: ElevatedButton(
-                onPressed: () => Navigator.pushNamed(context, "/home"),
-                style: ElevatedButton.styleFrom(
+                child: TextFormField(
+                  controller: _emailController,
+                  style: const TextStyle(color: Colors.yellow),
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    labelText: 'Email:',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    if (!RegExp(r'^[\w-]+(\.[\w-]+)*@gmail.com$')
+                        .hasMatch(value)) {
+                      return 'Please enter a valid Gmail address';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  right: 50,
+                  left: 50,
+                ),
+                child: TextFormField(
+                  controller: _passwordController,
+                  style: const TextStyle(color: Colors.yellow),
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    labelText: 'Password:',
+                  ),
+                  obscureText: true,
+                  obscuringCharacter: '*',
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password';
+                    }
+                    if (value.length < 8) {
+                      return 'Password must be at least 8 characters long';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                ),
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      Get.offAllNamed(Myroute.homeroute);
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.yellow,
                     textStyle: const TextStyle(
                       fontSize: 20,
-                    )),
-                child: const Text("Login")),
+                    ),
+                  ),
+                  child: const Text("Login"),
+                ),
+              ),
+              InkWell(
+                onTap: () => _control.loginWithGoogle(),
+                child: Container(
+                  height: 100,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.amber,
+                  ),
+                  child: Text(
+                    "Google ",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              )
+            ],
           ),
-          Container(),
-        ],
+        ),
       ),
     );
   }
@@ -83,8 +137,9 @@ class _LoginState extends State<Login1> {
       ),
       child: Container(
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.yellow, width: 5),
-            shape: BoxShape.circle),
+          border: Border.all(color: Colors.yellow, width: 5),
+          shape: BoxShape.circle,
+        ),
         child: const Icon(Icons.person, color: Colors.yellow, size: 100),
       ),
     );
